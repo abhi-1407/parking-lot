@@ -4,32 +4,39 @@ import java.util.List;
 
 public class ParkingLot {
     private final String name;
-    private final List<ParkingSpot> parkingSpots;
+    private static ParkingLot instance;
+    private final List<Floor> floors;
 
-    public ParkingLot(String name, List<ParkingSpot> parkingSpots){
+    private ParkingLot(String name, List<Floor> floors){
         this.name = name;
-        this.parkingSpots = parkingSpots;
+        this.floors = floors;
+    }
+
+    public int getAvailableParkingSpots(){
+        int count = 0;
+        for(Floor floor : floors){
+            for(ParkingSpot spot : floor.getParkingSpots()){
+                if(spot.isAvailable()){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public static ParkingLot getInstance(String name,List<Floor> floors){
+        if(instance == null){
+            instance = new ParkingLot(name,floors);
+        }
+        return instance;
     }
 
     public String getName(){
         return name;
     }
 
-    public List<ParkingSpot> getParkingSpots(){
-        return parkingSpots;
+    public List<Floor> getFloors(){
+        return floors;
     }
 
-    public int getAvailableParkingSpots(){
-        int availableSpots = 0;
-        for(ParkingSpot parkingSpot : parkingSpots){
-            if(parkingSpot.isAvailable()){
-                availableSpots++;
-            }
-        }
-        return availableSpots;
-    }
-
-    public int getNumberOfSpots(){
-        return parkingSpots.size();
-    }
 }

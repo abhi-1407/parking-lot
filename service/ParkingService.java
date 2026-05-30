@@ -1,9 +1,6 @@
 package service;
 
-import model.ParkingLot;
-import model.ParkingSpot;
-import model.Ticket;
-import model.Vehicle;
+import model.*;
 import strategy.PricingStrategy;
 
 import java.util.HashMap;
@@ -21,9 +18,11 @@ public class ParkingService {
     }
 
     private ParkingSpot findAvailableSpot(Vehicle vehicle){
-        for(ParkingSpot spot:parkingLot.getParkingSpots()){
-            if(spot.isAvailable() && spot.canFitVehicle(vehicle)){
-                return spot;
+        for(Floor floor : parkingLot.getFloors()){
+            for(ParkingSpot spot : floor.getParkingSpots()){
+                if(spot.isAvailable() && spot.canFitVehicle(vehicle)){
+                    return spot;
+                }
             }
         }
         return null;
@@ -40,14 +39,15 @@ public class ParkingService {
         return ticket;
     }
 
-    public void unparkVehicle(String ticketId){
+    public double unparkVehicle(String ticketId){
         Ticket ticket = activeTickets.get(ticketId);
         if(ticket == null){
             throw new RuntimeException("Invalid ticket");
         }
         ParkingSpot spot = ticket.getParkingSpot();
         spot.removeVehicle();
-        System.out.println("Final Charge for parking : " + pricingStrategy.calculateFee(ticket));
+        double charge = pricingStrategy.calculateFee(ticket);
         activeTickets.remove(ticketId);
+        return charge;
     }
 }

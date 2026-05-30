@@ -3,8 +3,9 @@ package model;
 import enums.VehicleType;
 
 public class ParkingSpot {
-    private String spotId;
-    private VehicleType spotType;
+    private final String spotId;
+    private Floor floor;
+    private final VehicleType spotType;
     private Vehicle parkedVehicle;
 
     public ParkingSpot(String spotId, VehicleType vehicleType){
@@ -14,10 +15,6 @@ public class ParkingSpot {
 
     public boolean isAvailable(){
         return parkedVehicle == null;
-    }
-
-    public Vehicle getParkedVehicle(){
-        return parkedVehicle;
     }
 
     public boolean canFitVehicle(Vehicle vehicle){
