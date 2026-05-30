@@ -4,6 +4,8 @@ import model.ParkingLot;
 import model.ParkingSpot;
 import model.Ticket;
 import service.ParkingService;
+import strategy.HourlyPricingStrategy;
+import strategy.PricingStrategy;
 
 import java.util.List;
 
@@ -14,7 +16,9 @@ public class Main {
                 new ParkingSpot("1",VehicleType.BIKE)
         );
         ParkingLot parkingLot = new ParkingLot("Mantri Square Mall", spots);
-        ParkingService parkingService = new ParkingService(parkingLot);
+        PricingStrategy pricingStrategy = new HourlyPricingStrategy();
+
+        ParkingService parkingService = new ParkingService(parkingLot,pricingStrategy);
 
         Car car = new Car("KA01AB1234");
 

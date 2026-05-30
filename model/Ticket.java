@@ -7,19 +7,19 @@ public class Ticket {
     private String ticketId;
     private Vehicle vehicle;
     private ParkingSpot parkingSpot;
-    private String entryTime;
+    private LocalDateTime entryTime;
 
     public Ticket(Vehicle vehicle, ParkingSpot parkingSpot){
         this.ticketId = UUID.randomUUID().toString();
         this.vehicle = vehicle;
         this.parkingSpot = parkingSpot;
-        this.entryTime = LocalDateTime.now().toString();
+        this.entryTime = LocalDateTime.now();
     }
 
     public String getTicketId(){
         return ticketId;
     };
-    public String getEntryTime(){
+    public LocalDateTime getEntryTime(){
         return entryTime;
     };
     public ParkingSpot getParkingSpot(){

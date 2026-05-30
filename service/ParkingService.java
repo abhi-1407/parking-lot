@@ -4,16 +4,19 @@ import model.ParkingLot;
 import model.ParkingSpot;
 import model.Ticket;
 import model.Vehicle;
+import strategy.PricingStrategy;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ParkingService {
     private final ParkingLot parkingLot;
+    private final PricingStrategy pricingStrategy;
     private final Map<String, Ticket> activeTickets;
 
-    public ParkingService(ParkingLot parkingLot){
+    public ParkingService(ParkingLot parkingLot,PricingStrategy strategy){
         this.parkingLot = parkingLot;
+        this.pricingStrategy = strategy;
         this.activeTickets = new HashMap<>();
     }
 
@@ -44,6 +47,7 @@ public class ParkingService {
         }
         ParkingSpot spot = ticket.getParkingSpot();
         spot.removeVehicle();
+        System.out.println("Final Charge for parking : " + pricingStrategy.calculateFee(ticket));
         activeTickets.remove(ticketId);
     }
 }
