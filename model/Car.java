@@ -2,8 +2,8 @@ package model;
 import enums.*;
 
 public class Car extends Vehicle {
-    public Car(String registerationNumber){
-        super(registerationNumber, VehicleType.CAR);
+    public Car(String registrationNumber){
+        super(registrationNumber, VehicleType.CAR);
     }
 
 }

@@ -6,15 +6,15 @@ import service.ParkingService;
 
 public class ExitGate {
     private final ParkingService parkingService;
-    private final int gateNo;
+    private final String gateId;
 
-    public ExitGate(ParkingService parkingService,int gateNo){
+    public ExitGate(ParkingService parkingService,String gateId){
         this.parkingService = parkingService;
-        this.gateNo = gateNo;
+        this.gateId = gateId;
     }
 
-    public int getGateNumber(){
-        return gateNo;
+    public String getGateNumber(){
+        return gateId;
     }
 
     public double exit(String ticketId){

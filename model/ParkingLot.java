@@ -31,10 +31,6 @@ public class ParkingLot {
         return instance;
     }
 
-    public String getName(){
-        return name;
-    }
-
     public List<Floor> getFloors(){
         return floors;
     }

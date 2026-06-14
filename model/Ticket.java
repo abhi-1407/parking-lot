@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Ticket {
-    private String ticketId;
-    private Vehicle vehicle;
-    private ParkingSpot parkingSpot;
-    private LocalDateTime entryTime;
+    private final String ticketId;
+    private final Vehicle vehicle;
+    private final ParkingSpot parkingSpot;
+    private final LocalDateTime entryTime;
 
     public Ticket(Vehicle vehicle, ParkingSpot parkingSpot){
         this.ticketId = UUID.randomUUID().toString();

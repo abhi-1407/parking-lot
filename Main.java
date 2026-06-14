@@ -5,7 +5,9 @@ import gate.ExitGate;
 import model.*;
 import model.Ticket;
 import service.ParkingService;
+import strategy.DefaultParkingStrategy;
 import strategy.HourlyPricingStrategy;
+import strategy.ParkingStrategy;
 import strategy.PricingStrategy;
 
 import java.util.List;
@@ -29,24 +31,25 @@ public class Main {
 
         ParkingLot parkingLot = ParkingLot.getInstance("Mantri Square Mall", floors);
         PricingStrategy pricingStrategy = new HourlyPricingStrategy();
+        ParkingStrategy parkingStrategy = new DefaultParkingStrategy(parkingLot.getFloors());
 
-        ParkingService parkingService = new ParkingService(parkingLot,pricingStrategy);
+        ParkingService parkingService = new ParkingService(parkingLot,pricingStrategy,parkingStrategy);
 
-        EntryGate entryGate1 = new EntryGate(parkingService,1);
-        EntryGate entryGate2 = new EntryGate(parkingService,2);
-        ExitGate exitGate1 = new ExitGate(parkingService,1);
-        ExitGate exitGate2 = new ExitGate(parkingService,2);
+        EntryGate entryGate1 = new EntryGate(parkingService,"GATE_1");
+        EntryGate entryGate2 = new EntryGate(parkingService,"GATE_2");
+        ExitGate exitGate1 = new ExitGate(parkingService,"GATE_1");
+        ExitGate exitGate2 = new ExitGate(parkingService,"GATE_2");
 
-        Vehicle car = VehicleFactory.createVechicle(VehicleType.CAR,"KA01AB1234");
-        Vehicle bike = VehicleFactory.createVechicle(VehicleType.BIKE,"KA01AB1235");
+        Vehicle car = VehicleFactory.createVehicle(VehicleType.CAR,"KA01AB1234");
+        Vehicle bike = VehicleFactory.createVehicle(VehicleType.BIKE,"KA01AB1235");
 
         System.out.println("==========CAR ENTERING=============");
         Ticket ticket1 = entryGate1.issueTicket(car);
-        System.out.println("Car entered from " + entryGate1.getGateNumber());
+        System.out.println("Car entered from " + entryGate1.getGateId());
 
         System.out.println("==========BIKE ENTERING=============");
         Ticket ticket2 = entryGate2.issueTicket(bike);
-        System.out.println("Bike entered from " + entryGate2.getGateNumber());
+        System.out.println("Bike entered from " + entryGate2.getGateId());
 
         System.out.println("Available number of parking slots " + parkingLot.getAvailableParkingSpots());
 

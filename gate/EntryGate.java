@@ -6,15 +6,15 @@ import service.ParkingService;
 
 public class EntryGate {
     private final ParkingService parkingService;
-    private final int gateNo;
+    private final String gateId;
 
-    public EntryGate(ParkingService parkingService, int gateNo){
+    public EntryGate(ParkingService parkingService, String gateId){
         this.parkingService = parkingService;
-        this.gateNo = gateNo;
+        this.gateId = gateId;
     }
 
-    public int getGateNumber(){
-        return gateNo;
+    public String getGateId(){
+        return gateId;
     }
     public Ticket issueTicket(Vehicle vehicle){
         return parkingService.parkVehicle(vehicle);

@@ -7,7 +7,8 @@ import model.Truck;
 import model.Vehicle;
 
 public class VehicleFactory {
-    public static Vehicle createVechicle(VehicleType vehicleType, String registrationNumber){
+    private VehicleFactory(){};
+    public static Vehicle createVehicle(VehicleType vehicleType, String registrationNumber){
         switch(vehicleType){
             case CAR:
                 return new Car(registrationNumber);

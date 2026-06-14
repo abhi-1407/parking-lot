@@ -3,8 +3,8 @@ package  model;
 import enums.VehicleType;
 
 public class Truck extends Vehicle {
-    public Truck(String registerationNumber){
-        super(registerationNumber, VehicleType.TRUCK);
+    public Truck(String registrationNumber){
+        super(registrationNumber, VehicleType.TRUCK);
     }
 
 }
