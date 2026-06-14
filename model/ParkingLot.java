@@ -1,38 +1,45 @@
 package model;
 
+import gate.EntryGate;
+import gate.ExitGate;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParkingLot {
+
+    private static volatile ParkingLot instance;
+
     private final String name;
-    private static ParkingLot instance;
     private final List<Floor> floors;
 
-    private ParkingLot(String name, List<Floor> floors){
+    private final List<EntryGate> entryGates;
+    private final List<ExitGate> exitGates;
+
+    public ParkingLot(String name) {
         this.name = name;
-        this.floors = floors;
+        this.floors = new ArrayList<>();
+        this.entryGates = new ArrayList<>();
+        this.exitGates = new ArrayList<>();
     }
 
-    public int getAvailableParkingSpots(){
-        int count = 0;
-        for(Floor floor : floors){
-            for(ParkingSpot spot : floor.getParkingSpots()){
-                if(spot.isAvailable()){
-                    count++;
-                }
-            }
-        }
-        return count;
+    public void addFloor(Floor floor) {
+        floors.add(floor);
     }
 
-    public static ParkingLot getInstance(String name,List<Floor> floors){
-        if(instance == null){
-            instance = new ParkingLot(name,floors);
-        }
-        return instance;
+    public void addEntryGate(EntryGate gate) {
+        entryGates.add(gate);
     }
 
-    public List<Floor> getFloors(){
+    public void addExitGate(ExitGate gate) {
+        exitGates.add(gate);
+    }
+
+    public List<Floor> getFloors() {
         return floors;
     }
 
+    public String getName() {
+        return name;
+    }
 }

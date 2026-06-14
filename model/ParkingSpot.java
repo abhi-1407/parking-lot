@@ -23,9 +23,12 @@ public class ParkingSpot {
         this.parkedVehicle = vehicle;
     }
 
-    public Vehicle removeVehicle(){
+    public void removeVehicle(){
         Vehicle vehicle = parkedVehicle;
         parkedVehicle = null;
-        return vehicle;
+    }
+
+    public String getSpotId(){
+        return spotId;
     }
 }

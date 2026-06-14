@@ -6,60 +6,53 @@ import model.*;
 import model.Ticket;
 import service.ParkingService;
 import strategy.DefaultParkingStrategy;
-import strategy.HourlyPricingStrategy;
+import strategy.FlatRatePricingStrategy;
 import strategy.ParkingStrategy;
 import strategy.PricingStrategy;
 
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
-        List<ParkingSpot> floor1Spots = List.of(
-                new ParkingSpot("1",VehicleType.CAR),
-                new ParkingSpot("2",VehicleType.BIKE)
-        );
 
-        List<ParkingSpot> floor2Spots = List.of(
-                new ParkingSpot("3",VehicleType.CAR),
-                new ParkingSpot("4",VehicleType.BIKE)
-        );
+    public static void main(String[] args) {
 
-        List<Floor> floors = List.of(
-                new Floor(1, floor1Spots),
-                new Floor(2, floor2Spots)
-        );
+        ParkingSpot carSpot1 = new ParkingSpot("C1", VehicleType.CAR);
 
-        ParkingLot parkingLot = ParkingLot.getInstance("Mantri Square Mall", floors);
-        PricingStrategy pricingStrategy = new HourlyPricingStrategy();
+        ParkingSpot carSpot2 = new ParkingSpot("C2", VehicleType.CAR);
+
+        ParkingSpot bikeSpot1 = new ParkingSpot("B1", VehicleType.BIKE);
+
+        ParkingSpot truckSpot1 = new ParkingSpot("T1", VehicleType.TRUCK);
+
+        Floor floor1 = new Floor(1, List.of(carSpot1, carSpot2, bikeSpot1, truckSpot1));
+
+        ParkingLot parkingLot = new ParkingLot("Phoenix Mall");
+
+        parkingLot.addFloor(floor1);
+
         ParkingStrategy parkingStrategy = new DefaultParkingStrategy(parkingLot.getFloors());
 
-        ParkingService parkingService = new ParkingService(parkingLot,pricingStrategy,parkingStrategy);
+        PricingStrategy pricingStrategy = new FlatRatePricingStrategy();
 
-        EntryGate entryGate1 = new EntryGate(parkingService,"GATE_1");
-        EntryGate entryGate2 = new EntryGate(parkingService,"GATE_2");
-        ExitGate exitGate1 = new ExitGate(parkingService,"GATE_1");
-        ExitGate exitGate2 = new ExitGate(parkingService,"GATE_2");
+        ParkingService parkingService = new ParkingService(parkingLot, pricingStrategy, parkingStrategy);
 
-        Vehicle car = VehicleFactory.createVehicle(VehicleType.CAR,"KA01AB1234");
-        Vehicle bike = VehicleFactory.createVehicle(VehicleType.BIKE,"KA01AB1235");
+        EntryGate entryGate = new EntryGate(parkingService, "GATE_1");
 
-        System.out.println("==========CAR ENTERING=============");
-        Ticket ticket1 = entryGate1.issueTicket(car);
-        System.out.println("Car entered from " + entryGate1.getGateId());
+        ExitGate exitGate = new ExitGate(parkingService, "GATE_2");
 
-        System.out.println("==========BIKE ENTERING=============");
-        Ticket ticket2 = entryGate2.issueTicket(bike);
-        System.out.println("Bike entered from " + entryGate2.getGateId());
+        parkingLot.addEntryGate(entryGate);
+        parkingLot.addExitGate(exitGate);
 
-        System.out.println("Available number of parking slots " + parkingLot.getAvailableParkingSpots());
+        Vehicle car = VehicleFactory.createVehicle(VehicleType.CAR, "KA01AB1234");
 
-        System.out.println("==========CAR EXITING=============");
-        exitGate1.exit(ticket1.getTicketId());
-        System.out.println("Car exiting from " + exitGate1.getGateNumber());
-        System.out.println("Available number of parking slots " + parkingLot.getAvailableParkingSpots());
-        System.out.println("==========BIKE EXITING=============");
-        exitGate2.exit(ticket2.getTicketId());
-        System.out.println("Bike exiting from " + exitGate2.getGateNumber());
-        System.out.println("Available number of parking slots " + parkingLot.getAvailableParkingSpots());
+        Ticket ticket = entryGate.issueTicket(car);
+
+        System.out.println("Ticket Generated : " + ticket.getTicketId());
+
+        System.out.println("Vehicle Parked At Spot : " + ticket.getParkingSpot().getSpotId());
+
+        double fee = exitGate.exit(ticket.getTicketId());
+
+        System.out.println("Parking Fee : " + fee);
     }
 }
